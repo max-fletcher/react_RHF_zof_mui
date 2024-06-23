@@ -2,7 +2,7 @@ import { z } from "zod"
 import { patterns } from "../../constants"
 
 export const schema = z.object({
-  name: z.string().min(1, {message: 'Required'}),
+  name: z.string().min(1, {message: 'Name is required'}),
   email: z.string().min(1, {message: 'Email is Required'}).refine((text)=> {
     // NOTE: Test email field against a regex that comes from "patterns.ts"
     return patterns.email.test(text)

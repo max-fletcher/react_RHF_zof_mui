@@ -12,6 +12,13 @@ const Users = () => {
     formState: { errors },
   } = useFormContext<Schema>()
 
+  const options = [
+    {id: "1", label: "California"},
+    {id: "2", label: "Texas"}
+  ]
+
+  console.log("Options 1", options);
+
   const onSubmit = () => {
     console.log('submit');
   }
@@ -32,7 +39,7 @@ const Users = () => {
         3. const methods = useForm<Schema>({ mode: 'all', resolver: zodResolver(schema) }) - in UsersProvider.tsx to define the generics for useForm(inferred from Zod)
         4. const { register, formState: { errors } } = useFormContext<Schema>() - (see above) to define the generics for useForm(inferred from Zod)
        */}
-      <RHFAutocomplete<Schema> name="states" />
+      <RHFAutocomplete<Schema> name="states" options={options} label="States" />
     </Stack>
     </>
   )

@@ -3,10 +3,13 @@ import { Stack, TextField } from "@mui/material"
 import { Schema } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
 import { useEffect } from "react"
+import { useStates } from "../services/queries"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
   // "onBlur": on clicking away from the input.
+
+  const statesQuery = useStates() // Get "states" query
 
   const {
     register,
@@ -50,7 +53,7 @@ const Users = () => {
         3. const methods = useForm<Schema>({ mode: 'all', resolver: zodResolver(schema) }) - in UsersProvider.tsx to define the generics for useForm(inferred from Zod)
         4. const { register, formState: { errors } } = useFormContext<Schema>() - (see above) to define the generics for useForm(inferred from Zod)
        */}
-      <RHFAutocomplete<Schema> name="states" options={options} label="States" />
+      <RHFAutocomplete<Schema> name="states" options={statesQuery.data} label="States" />
     </Stack>
     </>
   )

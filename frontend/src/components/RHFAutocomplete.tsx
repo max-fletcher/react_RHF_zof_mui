@@ -13,6 +13,8 @@ type Props<T extends FieldValues> = {
 const RHFAutocomplete = <T extends FieldValues>({name, options, label}: Props<T>) => {
   const { control } = useFormContext()
 
+  // console.log('RHFAutocomplete props', name, options, label);
+
   return (
     <Controller 
       control={control} 
@@ -20,7 +22,7 @@ const RHFAutocomplete = <T extends FieldValues>({name, options, label}: Props<T>
       // NOTE: Destructuring and retrieving value, onChange and ref from hook-form render function
       // render={({field: {value, onChange, ref}}) => (
       render={({ field: { value, onChange, ref }, fieldState: {error} }) => {
-        console.log('Inside render', {value})
+        // console.log('Inside render', {value})
         return <Autocomplete
           options={options || []}
           multiple
@@ -30,7 +32,7 @@ const RHFAutocomplete = <T extends FieldValues>({name, options, label}: Props<T>
           // This dictates the logic by which selected options are populated inside the box(i.e what is shown in the box). If we return true, it will populate the list with the same
           // option multiple times i.e the first option multiple times even if you select other options
           value={value.map((id: string) => options?.find((item) => {
-            console.log('inside value', item);
+            // console.log('inside value', item);
             return item.id === id
           }))}
           // NOTE: return the label of the selected option if it exists, else, return an empty string
@@ -41,14 +43,17 @@ const RHFAutocomplete = <T extends FieldValues>({name, options, label}: Props<T>
           // NOTE: Loop array of objects, and returns a corresponding array of ids
           // i.e [{id: "1", label: "California"}, {id: "2", label: "Texas"}] -> ["1", "2"]
           onChange={(_, newValue) => {
-            console.log('inside onChange', newValue)
+            // console.log('inside onChange', newValue)
             onChange(newValue.map((item) => {
-              console.log('inside onChange onChange', item)
+              // console.log('inside onChange onChange', item)
               return item?.id
             } ))
           }}
           // NOTE: This is the element that will be rendered inside the Autocomplete component. Used for searching.
-          renderInput={(params) => <TextField {...params} fullWidth inputRef={ref} error={!!error} helperText={error?.message} label={label} />}
+          renderInput={(params) => {
+            console.log('params', params);
+            return <TextField {...params} fullWidth inputRef={ref} error={!!error} helperText={error?.message} label={label} />
+          } }
           // NOTE: This is to include checkboxes for the options inside the dropdown
           renderOption={(props, option, {selected}) => 
           {

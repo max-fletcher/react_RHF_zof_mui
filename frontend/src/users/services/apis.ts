@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Option } from "../../types/option"
-import { Language } from "../../types/language";
 
 const BASE_URL = "http://localhost:8080"
 const axiosInstance = axios.create({baseURL:BASE_URL})

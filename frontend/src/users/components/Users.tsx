@@ -3,35 +3,32 @@ import { Stack, TextField } from "@mui/material"
 import { Schema } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
 import { useEffect } from "react"
-import { useStates } from "../services/queries"
+import { useLanguages, useStates } from "../services/queries"
+import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
   // "onBlur": on clicking away from the input.
 
   const statesQuery = useStates() // Get "states" query
+  const languagesQuery = useLanguages() // Get "languages" query
+
+  console.log('statesQuery', statesQuery, 'languagesQuery.data', languagesQuery.data);
 
   const {
     register,
     formState: { errors },
-    watch,
+    // watch,
   } = useFormContext<Schema>()
 
   // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
-  useEffect(() => {
-    const subscription = watch((value) => {
-      console.log(value);
-    })
+  // useEffect(() => {
+  //   const subscription = watch((value) => {
+  //     console.log(value);
+  //   })
 
-    return () => subscription.unsubscribe()
-  }, [watch])
-
-  const options = [
-    {id: "1", label: "California"},
-    {id: "2", label: "Texas"}
-  ]
-
-  console.log("Options 1", options);
+  //   return () => subscription.unsubscribe()
+  // }, [watch])
 
   const onSubmit = () => {
     console.log('submit');
@@ -54,6 +51,7 @@ const Users = () => {
         4. const { register, formState: { errors } } = useFormContext<Schema>() - (see above) to define the generics for useForm(inferred from Zod)
        */}
       <RHFAutocomplete<Schema> name="states" options={statesQuery.data} label="States" />
+      <RHFToggleButtonGroup<Schema> name="language" options={languagesQuery.data} />
     </Stack>
     </>
   )

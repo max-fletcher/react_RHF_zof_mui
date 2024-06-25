@@ -7,7 +7,8 @@ export const schema = z.object({
     // NOTE: Test email field against a regex that comes from "patterns.ts"
     return patterns.email.test(text)
   }, {message: 'Email is not valid'}),
-  states: z.array(z.string()).min(1).max(2)
+  states: z.array(z.string()).min(1).max(2),
+  languages: z.array(z.string()).min(1).max(3),
 })
 
 export type Schema = z.infer<typeof schema>
@@ -16,4 +17,5 @@ export const defaultValues:Schema = {
   email: '',
   name: '',
   states: [],
+  languages: [],
 }

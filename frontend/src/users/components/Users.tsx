@@ -2,6 +2,7 @@ import { useFormContext } from "react-hook-form"
 import { Stack, TextField } from "@mui/material"
 import { Schema } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
+import { useEffect } from "react"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -10,7 +11,17 @@ const Users = () => {
   const {
     register,
     formState: { errors },
+    watch,
   } = useFormContext<Schema>()
+
+  // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log(value);
+    })
+
+    return () => subscription.unsubscribe()
+  }, [watch])
 
   const options = [
     {id: "1", label: "California"},

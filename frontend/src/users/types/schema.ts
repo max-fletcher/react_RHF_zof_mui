@@ -10,4 +10,10 @@ export const schema = z.object({
   states: z.array(z.string()).min(1).max(2)
 })
 
-export type Schema = z.infer<typeof schema> 
+export type Schema = z.infer<typeof schema>
+
+export const defaultValues:Schema = {
+  email: '',
+  name: '',
+  states: [],
+}

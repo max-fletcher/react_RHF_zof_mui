@@ -16,7 +16,7 @@ export const getLanguages = async () => {
 
 export const getGenders = async () => {
   // NOTE: will fetch data from "http://localhost:8080/todos" since BASE_URL is defined above
-  return (await axiosInstance.get<Option[]>(`gender`)).data
+  return (await axiosInstance.get<Option[]>(`genders`)).data
 }
 
 export const getSkills = async () => {

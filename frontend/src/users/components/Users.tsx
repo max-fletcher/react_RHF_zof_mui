@@ -2,9 +2,10 @@ import { useFormContext } from "react-hook-form"
 import { Stack, TextField } from "@mui/material"
 import { Schema } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
-import { useEffect } from "react"
-import { useLanguages, useStates } from "../services/queries"
+// import { useEffect } from "react"
+import { useGenders, useLanguages, useStates } from "../services/queries"
 import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup"
+import RHFRadioGroup from "../../components/RHFRadioGroup"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -12,13 +13,15 @@ const Users = () => {
 
   const statesQuery = useStates() // Get "states" query
   const languagesQuery = useLanguages() // Get "languages" query
+  const genderQuery = useGenders() // Get "gender" query
 
-  console.log('statesQuery', statesQuery, 'languagesQuery.data', languagesQuery.data);
+  console.log('statesQuery', statesQuery);
+  console.log('languagesQuery.data', languagesQuery);
+  console.log('genderQuery', genderQuery.data);
 
   const {
     register,
     formState: { errors },
-    // watch,
   } = useFormContext<Schema>()
 
   // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
@@ -51,7 +54,8 @@ const Users = () => {
         4. const { register, formState: { errors } } = useFormContext<Schema>() - (see above) to define the generics for useForm(inferred from Zod)
        */}
       <RHFAutocomplete<Schema> name="states" options={statesQuery.data} label="States" />
-      <RHFToggleButtonGroup<Schema> name="language" options={languagesQuery.data} />
+      <RHFToggleButtonGroup<Schema> name="languages" options={languagesQuery.data} />
+      <RHFRadioGroup<Schema> name="gender" options={genderQuery.data} label="Gender" />
     </Stack>
     </>
   )

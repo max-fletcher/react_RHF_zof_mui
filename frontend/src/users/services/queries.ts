@@ -17,7 +17,7 @@ export function useLanguages() {
 
 export function useGenders() {
   return useQuery({
-    queryKey: ['languages'],
+    queryKey: ['genders'],
     queryFn: getGenders
   })
 }

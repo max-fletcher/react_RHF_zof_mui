@@ -32,7 +32,7 @@ const RHFRadioGroup = <T extends FieldValues>({name, options, label}: Props<T>) 
                 control={<Radio checked={field.value === option.id} />} 
                 label={option.label} 
                 key={option.id} 
-              /> 
+              />
             })}
           </RadioGroup>
         </FormControl>

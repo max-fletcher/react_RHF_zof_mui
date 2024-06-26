@@ -53,7 +53,7 @@ const RHFAutocomplete = <T extends FieldValues>({name, options, label}: Props<T>
           renderInput={(params) => {
             console.log('params', params);
             return <TextField {...params} fullWidth inputRef={ref} error={!!error} helperText={error?.message} label={label} />
-          } }
+          }}
           // NOTE: This is to include checkboxes for the options inside the dropdown
           renderOption={(props, option, {selected}) => 
           {

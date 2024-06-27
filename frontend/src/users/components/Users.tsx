@@ -9,6 +9,8 @@ import RHFRadioGroup from "../../components/RHFRadioGroup"
 import RHFCheckbox from "../../components/RHFCheckbox"
 import RHFDateTimePicker from "../../components/RHFDateTimePicker"
 import RHFDateRangePicker from "../../components/RHFDateRangePicker"
+import RHFSlider from "../../components/RHFSlider"
+import RHFSwitch from "../../components/RHFSwitch"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -64,6 +66,8 @@ const Users = () => {
       <RHFCheckbox<Schema> name="skills" options={skillsQuery.data} label="Select skills" />
       <RHFDateTimePicker<Schema> name="registrationDateAndTime" label="Registration date & time" />
       <RHFDateRangePicker<Schema> name="formerEmploymentPeriod" label="Former employment period" />
+      <RHFSlider<Schema> name="salaryRange" label="Employee salary range" min={0} max={5000} step={100} />
+      <RHFSwitch<Schema> name="isTeacher" label="Are you a teacher?" />
     </Stack>
     </>
   )

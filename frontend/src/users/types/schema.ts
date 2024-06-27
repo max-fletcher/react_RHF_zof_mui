@@ -12,9 +12,13 @@ export const schema = z.object({
   gender: z.string().min(1, {message: 'Gender is required'}),
   skills: z.array(z.string()).max(2, {message: 'Maximum 2 options can be selected'}),
   registrationDateAndTime: z.date(),
-  formerEmploymentPeriod: z.array(z.date({message: 'Employment period must be a date'}), {message: 'Employment period is required'})
+  formerEmploymentPeriod: z.array(z.date({message: 'Employment period must be dates'}), {message: 'Employment period must be an array'})
                             .min(2, {message: 'Start or end of employment period is missing'})
                             .max(2, {message: 'Start or end of employment period is missing'}),
+  salaryRange: z.array(z.number({message: 'Employment period must be numbers'}), {message: 'Employment period must be an array'})
+                  .min(2, {message: 'Start ir en of salary range is missing'})
+                  .max(2, {message: 'Start ir en of salary range is missing'}),
+  isTeacher: z.boolean(),
   
 })
 
@@ -29,4 +33,6 @@ export const defaultValues:Schema = {
   skills: [],
   registrationDateAndTime: new Date(),
   formerEmploymentPeriod: [new Date(), new Date()],
+  salaryRange:[0, 5000],
+  isTeacher: true,
 }

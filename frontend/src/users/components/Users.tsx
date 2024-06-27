@@ -7,6 +7,7 @@ import { useGenders, useLanguages, useSkills, useStates } from "../services/quer
 import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup"
 import RHFRadioGroup from "../../components/RHFRadioGroup"
 import RHFCheckbox from "../../components/RHFCheckbox"
+import RHFDateTimePicker from "../../components/RHFDateTimePicker"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -59,7 +60,8 @@ const Users = () => {
       <RHFAutocomplete<Schema> name="states" options={statesQuery.data} label="States" />
       <RHFToggleButtonGroup<Schema> name="languages" options={languagesQuery.data} />
       <RHFRadioGroup<Schema> name="gender" options={genderQuery.data} label="Select gender" />
-      <RHFCheckbox name="skills" options={skillsQuery.data} label="Select skills" />
+      <RHFCheckbox<Schema> name="skills" options={skillsQuery.data} label="Select skills" />
+      <RHFDateTimePicker<Schema> name="registrationDateAndTime" label="Registration date & time" />
     </Stack>
     </>
   )

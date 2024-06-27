@@ -13,10 +13,9 @@ type Props<T extends FieldValues> = {
 const RHFToggleButtonGroup = <T extends FieldValues>({name, options}: Props<T>) => {
   const {control} = useFormContext()
 
-  console.log(name, options);
+  // console.log(name, options);
 
   return (
-    <Box>
     <Controller 
       control={control} 
       name={name} 
@@ -45,9 +44,7 @@ const RHFToggleButtonGroup = <T extends FieldValues>({name, options}: Props<T>) 
           {error?.message && <FormHelperText sx={{ pl: 1, color: errorRed }}>{error?.message}</FormHelperText>}
         </>
       }}
-    >
-    </Controller>
-    </Box>
+    />
   )
 }
 

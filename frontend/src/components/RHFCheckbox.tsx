@@ -14,7 +14,7 @@ type Props<T extends FieldValues> = {
 const RHFCheckbox = <T extends FieldValues>({name, options, label}: Props<T>) => {
   const {control} = useFormContext()
 
-  console.log(name, options);
+  // console.log(name, options);
 
   return (
     <Controller 
@@ -54,8 +54,7 @@ const RHFCheckbox = <T extends FieldValues>({name, options, label}: Props<T>) =>
           {error?.message && <FormHelperText sx={{ pl: 1, color: errorRed }}>{error?.message}</FormHelperText>}
         </FormControl>
       }}
-    >
-    </Controller>
+    />
   )
 }
 

@@ -11,7 +11,7 @@ type Props<T extends FieldValues> = {
 const RHFRadioGroup = <T extends FieldValues>({name, options, label}: Props<T>) => {
   const {control} = useFormContext()
 
-  console.log(name, options);
+  // console.log(name, options);
 
   return (
     <Controller 
@@ -37,8 +37,7 @@ const RHFRadioGroup = <T extends FieldValues>({name, options, label}: Props<T>) 
           </RadioGroup>
         </FormControl>
       }}
-    >
-    </Controller>
+    />
   )
 }
 

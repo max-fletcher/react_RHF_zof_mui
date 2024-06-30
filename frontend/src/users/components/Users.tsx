@@ -1,8 +1,8 @@
-import { useFormContext } from "react-hook-form"
-import { Stack, TextField } from "@mui/material"
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form"
+import { Button, Stack } from "@mui/material"
 import { Schema } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
-// import { useEffect } from "react"
+import { useEffect } from "react"
 import { useGenders, useLanguages, useSkills, useStates } from "../services/queries"
 import RHFToggleButtonGroup from "../../components/RHFToggleButtonGroup"
 import RHFRadioGroup from "../../components/RHFRadioGroup"
@@ -28,8 +28,11 @@ const Users = () => {
   console.log('skillsQuery', skillsQuery.data)
 
   const {
-    register,
-    formState: { errors },
+    // register,
+    // formState: { errors },
+    // watch,
+    control,
+    unregister,
   } = useFormContext<Schema>()
 
   // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
@@ -40,6 +43,26 @@ const Users = () => {
 
   //   return () => subscription.unsubscribe()
   // }, [watch])
+
+  // NOTE: Using this instead of watch('isTeacher'). Also, can also just use "control" and not "control: control" as option
+  const isTeacher = useWatch({ control: control, name: 'isTeacher' })
+
+  // NOTE: This hook is for when we are dynamically adding/manipulate fields to a form in RHF. We can import methods from this hook such as append, fields, insert, move, prepend, remove,
+  // swap & update. We are destructuring control above for "useFormContext" and passing it in here inside the argument object along with the name(coming from Zod) of the dynamic
+  // fields(in this case, an array of objects called "students")
+  const { append, fields, remove, replace } = useFieldArray({
+    control: control, // can also just use "control" and not "control: control" as option
+    name: 'students'
+  })
+
+  useEffect(() => {
+    if(!isTeacher){
+      replace([]) // this replaces the students array with an emtpty array(i.e empties all values present in students array)
+      // NOTE: // if we don't use this, after "replace([])" is ran, we will have something like "students: undefined" inside submitted form values which we don't want
+      // It is not needed in this case, but its a best practice whenever we are using and removing/toggling all dynamic dependent fields
+      unregister('students')
+    }
+  }, [])
 
   const onSubmit = () => {
     console.log('submit');
@@ -72,6 +95,20 @@ const Users = () => {
       <RHFDateRangePicker<Schema> name="formerEmploymentPeriod" label="Former employment period" />
       <RHFSlider<Schema> name="salaryRange" label="Employee salary range" min={0} max={5000} step={100} />
       <RHFSwitch<Schema> name="isTeacher" label="Are you a teacher?" />
+      {/* NOTE: If "isTeacher" is true, we append a formField with name=""(empty string) as default value. Also, if we don't say type="button", React will think this is a submit btn */}
+      {isTeacher && (
+        <Button onClick={() => append({ name: '' })} type="button">Add new student</Button>
+      )}
+      {/* NOTE: Generating the fields needed here. Also using name={`students.${index}.name`} to generate the correct array index for value submission(this is because RHF doesn't 
+          take array as argument. You have to use dot syntax when defining arrays for submission). Also using onClick={() => remove(index)} so RHF removes the field with correct index */}
+      {fields.map((field, index) => {
+        return(
+          <>
+            <RHFTextField name={`students.${index}.name`} label="Student's name" key={field.id} />
+            <Button color="error" onClick={() => remove(index)} type="button">Remove</Button>
+          </>
+        )
+      })}
     </Stack>
     </>
   )

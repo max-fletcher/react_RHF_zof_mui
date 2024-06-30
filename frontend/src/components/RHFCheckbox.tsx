@@ -21,7 +21,7 @@ const RHFCheckbox = <T extends FieldValues>({name, options, label}: Props<T>) =>
       control={control} 
       name={name} 
       render={({ field: {value, onChange}, fieldState: { error } }) => {
-        console.log("value", value)
+        // console.log("RHFCheckbox value", value)
         // NOTE: Using "FormControl" since "FromGroup" itself doesn't have an error state or a label either. Also, its worth mentioning that we could've placed the "{...field}" props
         // in "FromGroup" tag instead of in "FormControl" tag. This is because placing anything that isn't one of FormControl's props will be forwarded to the component that is being controlled
         // i.e in this case, "FormGroup", and it is "FormGroup" that is supposed to contain props such as "onChange", "onBlur", "disabled" etc. in the first place.
@@ -29,7 +29,7 @@ const RHFCheckbox = <T extends FieldValues>({name, options, label}: Props<T>) =>
           <FormLabel>{label}</FormLabel>
           <FormGroup>
             {options?.map((option) => {
-              console.log('In Form Group', value, option);
+              // console.log('In RHFCheckbox Form Group', value, option);
               return <FormControlLabel
                 label={option.label} 
                 key={option.id} 

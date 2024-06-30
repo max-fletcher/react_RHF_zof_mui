@@ -18,7 +18,7 @@ const RHFRadioGroup = <T extends FieldValues>({name, options, label}: Props<T>) 
       control={control} 
       name={name} 
       render={({ field, fieldState: { error } }) => {
-        console.log(field.value)
+        // console.log(field.value)
         // NOTE: Using "FormControl" since "RadioGroup" itself doesn't have an error state or a label either. Also, its worth mentioning that we could've placed the "{...field}" props
         // in "RadioGroup" tag instead of in "FormControl" tag. This is because placing anything that isn't one of FormControl's props will be forwarded to the component that is being controlled
         // i.e in this case, "RadioGroup", and it is "RadioGroup" that is supposed to contain props such as "onChange", "onBlur", "disabled" etc. in the first place.
@@ -26,7 +26,7 @@ const RHFRadioGroup = <T extends FieldValues>({name, options, label}: Props<T>) 
           <FormLabel>{label}</FormLabel>
           <RadioGroup>
             {options?.map((option) => {
-              console.log('In Radio Group', field.value, option);
+              // console.log('In Radio Group', field.value, option);
               return <FormControlLabel
                 value={option.id} 
                 control={<Radio checked={field.value === option.id} />} 

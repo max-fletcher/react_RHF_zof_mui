@@ -30,19 +30,19 @@ const Users = () => {
   const {
     // register,
     // formState: { errors },
-    // watch,
+    watch,
     control,
     unregister,
   } = useFormContext<Schema>()
 
   // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
-  // useEffect(() => {
-  //   const subscription = watch((value) => {
-  //     console.log(value);
-  //   })
+  useEffect(() => {
+    const subscription = watch((value) => {
+      console.log(value);
+    })
 
-  //   return () => subscription.unsubscribe()
-  // }, [watch])
+    return () => subscription.unsubscribe()
+  }, [watch])
 
   // NOTE: Using this instead of watch('isTeacher'). Also, can also just use "control" and not "control: control" as option
   const isTeacher = useWatch({ control: control, name: 'isTeacher' })
@@ -62,7 +62,7 @@ const Users = () => {
       // It is not needed in this case, but its a best practice whenever we are using and removing/toggling all dynamic dependent fields
       unregister('students')
     }
-  }, [])
+  }, [isTeacher, replace, unregister]) // remember that all and any function that you call inside useEffect must be part of the dependency array
 
   const onSubmit = () => {
     console.log('submit');

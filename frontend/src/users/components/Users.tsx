@@ -11,6 +11,7 @@ import RHFDateTimePicker from "../../components/RHFDateTimePicker"
 import RHFDateRangePicker from "../../components/RHFDateRangePicker"
 import RHFSlider from "../../components/RHFSlider"
 import RHFSwitch from "../../components/RHFSwitch"
+import RHFTextField from "../../components/RHFTextField"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -47,8 +48,11 @@ const Users = () => {
   return (
     <>
     <Stack sx={{ gap:2 }}>
-      <TextField {...register('name')} label="Name" error={!!errors.name} helperText={errors.name?.message} />
-      <TextField {...register('email')} label="Email" error={!!errors.email} helperText={errors.email?.message} />
+      {/* NOTE: The good ol' way of using textfields. Below it are the component way oof doing things */}
+      {/* <TextField {...register('name')} label="Name" error={!!errors.name} helperText={errors.name?.message} />
+      <TextField {...register('email')} label="Email" error={!!errors.email} helperText={errors.email?.message} /> */}
+      <RHFTextField<Schema> name="name" label="Name" />
+      <RHFTextField<Schema> name="email" label="Email" />
       {/* NOTE: See MUI docs to see how the Autocomplete component works. Also we can't use the component 1 line below since it cannot bind the selected value to the component. We create a 
           custom component instead with a controller. */}
       {/* <Autocomplete options={[{id: 1, label: 'Texas'}]} renderInput={(params) => <TextField {...params} label="States" /> } /> */}

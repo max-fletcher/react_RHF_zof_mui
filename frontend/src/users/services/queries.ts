@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getGenders, getLanguages, getSkills, getStates } from "./apis"
+import { getGenders, getLanguages, getSkills, getStates, getUsers } from "./apis"
 
 export function useStates() {
   return useQuery({
@@ -26,5 +26,12 @@ export function useSkills() {
   return useQuery({
     queryKey: ['skills'],
     queryFn: getSkills
+  })
+}
+
+export function useUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: getUsers
   })
 }

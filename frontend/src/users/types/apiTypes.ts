@@ -12,18 +12,20 @@ type Edit = {
 type Common = {
   name: string,
   email: string,
-  states: [],
-  languages: [],
+  states: string[],
+  languages: string[],
   gender: string,
-  skills: [],
-  registrationDateAndTime: string,
-  formerEmploymentPeriod: [] | [Date, Date],
-  salaryRange: [] | [number, number],
-  isTeacher: true,
-  students: [{
+  skills: string[],
+  registrationDateAndTime: string | Date,
+  formerEmploymentPeriod: string[] | Date[],
+  salaryRange: number[],
+  isTeacher: boolean,
+  students?: {
     name: string
-  }],
+  }[],
+  variant:'create'|'edit',
+  id?:string
 }
 
-export type ApiCreateEdit = Common & (Create | Edit)
+export type ApiCreateEdit = Common 
 export type ApiGet = Common & Edit

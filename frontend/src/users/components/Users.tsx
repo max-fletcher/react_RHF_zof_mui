@@ -1,4 +1,4 @@
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form"
+import { SubmitHandler, useFieldArray, useFormContext, useWatch } from "react-hook-form"
 import { Button, Container, List, ListItem, ListItemButton, ListItemText, ListSubheader, Stack } from "@mui/material"
 import { Schema, defaultValues } from "../types/schema"
 import RHFAutocomplete from "../../components/RHFAutocomplete"
@@ -13,6 +13,7 @@ import RHFSlider from "../../components/RHFSlider"
 import RHFSwitch from "../../components/RHFSwitch"
 import RHFTextField from "../../components/RHFTextField"
 import { Option } from "../../types/option"
+import { useCreateUser } from "../services/mutations"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -37,7 +38,9 @@ const Users = () => {
     control,
     unregister,
     reset,
-    setValue
+    setValue,
+    trigger,
+    handleSubmit
   } = useFormContext<Schema>()
 
   // NOTE: This is how you can monitor the values that are present in hook-form if you are not using devtools
@@ -88,14 +91,26 @@ const Users = () => {
     reset(defaultValues)
   }
 
-  const onSubmit = () => {
-    console.log('submit');
+  // NOTE: Logic for handling form submission
+  const variant = useWatch({ control: control, name: 'variant' })
+
+  const createUserMutation = useCreateUser()
+
+  const onSubmit:SubmitHandler<Schema> = (data) => {
+    console.log('Submitted', variant, data);
+    if(variant === 'create'){
+      createUserMutation.mutate(data)
+    }
+    // else(variant === 'edit'){
+
+    // }
   }
 
   return (
     <>
-    {/* NOTE: Container is to add padding to the form on all sides. component="form" means this will be considered as a form HTML element */}
-    <Container maxWidth="sm" component="form">
+    {/* NOTE: Container is to add padding to the form on all sides. component="form" means this will be considered as a form HTML element. The "onSubmit" is added here since we can use this as a form element 
+      and have it submit all inputs field data inside on clicking a submit button. */}
+    <Container maxWidth="sm" component="form" onSubmit={handleSubmit(onSubmit)}>
       <Stack sx={{flexDirection: 'row', gap: 2 }}>
         <List subheader={<ListSubheader>Users</ListSubheader>}>
           {usersQuery.data?.map((user: Option) => {
@@ -138,7 +153,13 @@ const Users = () => {
           <RHFSwitch<Schema> name="isTeacher" label="Are you a teacher?" />
           {/* NOTE: If "isTeacher" is true, we append a formField with name=""(empty string) as default value. Also, if we don't say type="button", React will think this is a submit btn */}
           {isTeacher && (
-            <Button onClick={() => append({ name: '' })} type="button">Add new student</Button>
+            <Button onClick={() =>{
+              append({ name: '' })
+              trigger('isTeacher') // Placing this here so when we type in the Text field, the validation is re-ran and the error for "isTeacher" is cleared. "trigger" comes from RHF(see above).
+            } 
+            } 
+            type="button"
+            >Add new student</Button>
           )}
           {/* NOTE: Generating the fields needed here. Also using name={`students.${index}.name`} to generate the correct array index for value submission(this is because RHF doesn't 
               take array as argument. You have to use dot syntax when defining arrays for submission). Also using onClick={() => remove(index)} so RHF removes the field with correct index */}

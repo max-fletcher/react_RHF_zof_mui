@@ -1,6 +1,5 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { getGenders, getLanguages, getSingleUser, getSkills, getStates, getUsers } from "./apis"
-import { ApiGet } from "../types/apiTypes"
 
 export function useStates() {
   return useQuery({

@@ -4,7 +4,7 @@ import { ApiCreateEdit } from "../types/apiTypes";
 
 // NOTE: There are 2 ways to communicate with the backend 1.Queries and 2.Mutation. Mutations are when we need to add,edit,update and delete items.
 // While we can define Mutations in the same file as Queries, it maybe better to separate them as per your preference
-export function useCreateTodo() {
+export function useCreateUser() {
   const queryClient = useQueryClient() // Needed to run cache invalidation/refetch
 
   return useMutation({
@@ -17,7 +17,7 @@ export function useCreateTodo() {
       console.log('Error', error.message);
     },
     onSuccess: async () => { // This function will run if this hook/mutation successfully executes
-      console.log('Success');
+      console.log('Success')
       await queryClient.invalidateQueries({ queryKey: ['users'] }) // Invalidate cache using key "custom_todos"
     },
     // NOTE: An underscore as function param indicates that the first param("data") is not to be used. We are unable to omit it due to the order of params passed so we are simply choosing to not make it accessible.
@@ -26,13 +26,6 @@ export function useCreateTodo() {
     // "variables" is the raw input data sent to the promise.
     onSettled: async (_, error) => { // This function will run every time AFTER we use this hook/mutation regardless of success or error, so its a good place to run cache invalidation
       console.log('Settled', error); // "data" is the response data returned("if any") by the promise. "error" is the error returned(if any) by the promise . "variables" is the raw input data sent to the promise.
-      // if(error){
-      //   console.log(error);
-      // }
-      // else{
-      //   console.log("here onSettled");
-      //   await queryClient.invalidateQueries({ queryKey: ['todos'] }) // Invalidate cache using key "custom_todos"
-      // }
     }
   })
 }

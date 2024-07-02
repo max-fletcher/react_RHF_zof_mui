@@ -27,7 +27,8 @@ export const schema = z.intersection(
     z.object({ variant: z.literal('create') }),
     z.object({ variant: z.literal('edit'), id: z.string().min(1) })
   ])
-).and(
+)
+.and(
   z.union([
     z.object({ isTeacher: z.literal(false) }),
     z.object({ isTeacher: z.literal(true), 
@@ -38,7 +39,7 @@ export const schema = z.intersection(
       )
     })
   ])
-)
+);
 
 
 export type Schema = z.infer<typeof schema>
@@ -55,5 +56,5 @@ export const defaultValues:Schema = {
   registrationDateAndTime: new Date(),
   formerEmploymentPeriod: [new Date(), new Date()],
   salaryRange:[0, 5000],
-  isTeacher: false,
+  isTeacher: false
 }

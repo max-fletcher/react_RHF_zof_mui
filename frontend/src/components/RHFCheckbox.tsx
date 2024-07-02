@@ -35,6 +35,7 @@ const RHFCheckbox = <T extends FieldValues>({name, options, label}: Props<T>) =>
                 key={option.id} 
                 control={
                   <Checkbox 
+                    checked={value.includes(option.id)}
                     value={value.includes(option.id)} 
                     onChange={() => {
                       if(value.includes(option.id))

@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
-import { getGenders, getLanguages, getSkills, getStates, getUsers } from "./apis"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { getGenders, getLanguages, getSingleUser, getSkills, getStates, getUsers } from "./apis"
+import { ApiGet } from "../types/apiTypes"
 
 export function useStates() {
   return useQuery({
@@ -33,5 +34,13 @@ export function useUsers() {
   return useQuery({
     queryKey: ['users'],
     queryFn: getUsers
+  })
+}
+
+export function useUser(id: number | null) {
+  return useQuery({
+    queryKey: ["user", { id }],
+    queryFn: () => getSingleUser(id!),
+    enabled: !!id, // this is to ensure that this query runs only if id has a value/is defined, else, this query will not run at all
   })
 }

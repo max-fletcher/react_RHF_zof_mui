@@ -46,8 +46,8 @@ export type Schema = z.infer<typeof schema>
 export const defaultValues:Schema = {
   // NOTE: passing 'create' as default since edit also requires an id
   variant: 'create',
-  email: '',
   name: '',
+  email: '',
   states: [],
   languages: [],
   gender: '',
@@ -55,5 +55,5 @@ export const defaultValues:Schema = {
   registrationDateAndTime: new Date(),
   formerEmploymentPeriod: [new Date(), new Date()],
   salaryRange:[0, 5000],
-  isTeacher: false
+  isTeacher: false,
 }

@@ -5,20 +5,20 @@ type Create = {
 }
 
 type Edit = {
-  variant: 'create',
+  variant: 'edit',
   id: string
 }
 
 type Common = {
-  email: string,
   name: string,
+  email: string,
   states: [],
-  gender: string,
   languages: [],
+  gender: string,
   skills: [],
   registrationDateAndTime: string,
-  formerEmploymentPeriod: [],
-  salaryRange: [],
+  formerEmploymentPeriod: [] | [Date, Date],
+  salaryRange: [] | [number, number],
   isTeacher: true,
   students: [{
     name: string
@@ -27,4 +27,3 @@ type Common = {
 
 export type ApiCreateEdit = Common & (Create | Edit)
 export type ApiGet = Common & Edit
-

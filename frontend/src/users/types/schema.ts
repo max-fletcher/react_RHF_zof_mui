@@ -21,26 +21,38 @@ export const schema = z.intersection(
     salaryRange: z.array(z.number({message: 'Employment period must be numbers'}), {message: 'Employment period must be an array'})
                     .min(2, {message: 'Start ir en of salary range is missing'})
                     .max(2, {message: 'Start ir en of salary range is missing'}),
-    
+          
+
+    isTeacher: z.boolean(),
+    students: z.array(z.object({name: z.string().min(4)})).optional()
   }),
   z.discriminatedUnion('variant', [
     z.object({ variant: z.literal('create') }),
     z.object({ variant: z.literal('edit'), id: z.string().min(1) })
-  ])
+  ]),
 )
-.and(
-  z.union([
-    z.object({ isTeacher: z.literal(false) }),
-    z.object({ isTeacher: z.literal(true), 
-      students: z.array(
-        z.object({
-          name: z.string().min(4)
-        })
-      )
-    })
-  ])
-);
-
+.refine(
+  (data) => {
+    if(data.isTeacher === true && !data.students?.length){
+      return false
+    }
+    else
+      return true
+  },
+  {message: "Henlo Boi", path: ['isTeacher']}
+)
+// .and(
+//   z.union([
+//     z.object({ isTeacher: z.literal(false) }),
+//     z.object({ isTeacher: z.literal(true), 
+//       students: z.array(
+//         z.object({
+//           name: z.string().min(4)
+//         })
+//       )
+//     })
+//   ])
+// );
 
 export type Schema = z.infer<typeof schema>
 

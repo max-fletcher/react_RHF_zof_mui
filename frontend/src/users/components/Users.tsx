@@ -39,7 +39,7 @@ const Users = () => {
     unregister,
     reset,
     setValue,
-    trigger,
+    trigger, // trigger is used to run revalidation. We are using this to re-run validation when dependent switch for dynamic form fields is changed(i.e inside onChange)
     handleSubmit
   } = useFormContext<Schema>()
 
@@ -63,9 +63,10 @@ const Users = () => {
     setValue('id', id) //Setting id for the form used. That way, we can retrieve this id in "const id = useWatch..." and use it in "const userQuery = useUser..." to find a user's data and display it
   }
 
+  // NOTE: To reset fields when id changes i.e a user on the list is clicked
   useEffect(() => {
     if(userQuery.data){
-      reset(userQuery.data)
+      reset({...userQuery.data, variant: 'edit'})
     }
   }, [reset, userQuery.data]) // remember that all and any function that you call inside useEffect must be part of the dependency array
 

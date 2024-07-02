@@ -1,6 +1,6 @@
 import { Controller, FieldValues, Path, useFormContext } from "react-hook-form"
 import { Option } from "../types/option"
-import { ToggleButton, ToggleButtonGroup, FormHelperText, Box  } from "@mui/material"
+import { ToggleButton, ToggleButtonGroup, FormHelperText  } from "@mui/material"
 import { red } from '@mui/material/colors';
 
 const errorRed = red[700] // For error messages

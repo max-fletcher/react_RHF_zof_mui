@@ -16,16 +16,15 @@ type Common = {
   languages: string[],
   gender: string,
   skills: string[],
-  registrationDateAndTime: string | Date,
-  formerEmploymentPeriod: string[] | Date[],
+  registrationDateAndTime: Date,
+  formerEmploymentPeriod: Date[],
   salaryRange: number[],
   isTeacher: boolean,
   students?: {
     name: string
   }[],
   variant:'create'|'edit',
-  id?:string
 }
 
-export type ApiCreateEdit = Common 
+export type ApiCreateEdit = Common & (Create|Edit)
 export type ApiGet = Common & Edit

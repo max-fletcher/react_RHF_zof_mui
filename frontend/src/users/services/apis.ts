@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Option } from "../../types/option"
-import { ApiCreateEdit, ApiGet } from "../types/apiTypes";
+import { ApiCreateEdit, ApiEdit, ApiGet } from "../types/apiTypes";
+import { omit } from "lodash";
 
 const BASE_URL = "http://localhost:8080"
 const axiosInstance = axios.create({baseURL:BASE_URL})
@@ -35,7 +36,16 @@ export const getUsers = async () => {
 // NOTE: We will use this for mutation. This is to add an item to the database/list.
 export const createUser = async (data: ApiCreateEdit) => {
   // NOTE: will fetch data from "http://localhost:8080/todos" since BASE_URL is defined above
-  await axiosInstance.post<ApiCreateEdit>(`users`, data)
+  await axiosInstance.post<ApiCreateEdit>(`users`, omit(data, 'variant'))
+}
+
+// NOTE: We will use this for mutation. This is to add an item to the database/list.
+export const editUser = async (data: ApiEdit) => {
+  console.log('end');
+  
+  // NOTE: will fetch data from "http://localhost:8080/todos" since BASE_URL is defined above
+  if(data.id && data.variant === 'edit')
+    await axiosInstance.put<ApiCreateEdit>(`users/${data.id}`, omit(data, 'variant'))
 }
 
 export const getSingleUser = async (id: number) => {

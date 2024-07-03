@@ -13,7 +13,7 @@ import RHFSlider from "../../components/RHFSlider"
 import RHFSwitch from "../../components/RHFSwitch"
 import RHFTextField from "../../components/RHFTextField"
 import { Option } from "../../types/option"
-import { useCreateUser } from "../services/mutations"
+import { useCreateUser, useEditUser } from "../services/mutations"
 
 const Users = () => {
   // NOTE: Mode is one of the many options you can pass to RHF. It dictates when validation will be ran. Some modes are "all": Whenever we type or submit, "onSubmit": on submitting the form,
@@ -25,11 +25,11 @@ const Users = () => {
   const skillsQuery = useSkills() // Get "skills" query
   const usersQuery = useUsers() // Get "users" query
 
-  console.log('statesQuery', statesQuery)
-  console.log('languagesQuery.data', languagesQuery)
-  console.log('genderQuery', genderQuery.data)
-  console.log('skillsQuery', skillsQuery.data)
-  console.log('usersQuery', usersQuery.data)
+  // console.log('statesQuery', statesQuery)
+  // console.log('languagesQuery.data', languagesQuery)
+  // console.log('genderQuery', genderQuery.data)
+  // console.log('skillsQuery', skillsQuery.data)
+  // console.log('usersQuery', usersQuery.data)
 
   const {
     // register,
@@ -55,18 +55,18 @@ const Users = () => {
   // NOTE: Using this instead of watch('isTeacher'). Also, can also just use "control" and not "control: control" as option
   const isTeacher = useWatch({ control: control, name: 'isTeacher' })
   const id = useWatch({ control: control, name: 'id' })
-  const userQuery = useUser(parseInt(id))
-  console.log('userQuery', userQuery);
+  const userQuery = useUser(id)
+  // console.log('userQuery', userQuery)
 
   const handleUserClick = (id: string) => {
-    console.log("Inside handleUserClick", id);
-    setValue('id', id) //Setting id for the form used. That way, we can retrieve this id in "const id = useWatch..." and use it in "const userQuery = useUser..." to find a user's data and display it
+    // console.log("Inside handleUserClick", id)
+    setValue('id', parseInt(id)) //Setting id for the form used. That way, we can retrieve this id in "const id = useWatch..." and use it in "const userQuery = useUser..." to find a user's data and display it
   }
 
   // NOTE: To reset fields when id changes i.e a user on the list is clicked
   useEffect(() => {
     if(userQuery.data){
-      reset({...userQuery.data, variant: 'edit'})
+      reset({...userQuery.data, id: parseInt(userQuery.data.id), variant: 'edit'})
     }
   }, [reset, userQuery.data]) // remember that all and any function that you call inside useEffect must be part of the dependency array
 
@@ -88,7 +88,7 @@ const Users = () => {
   }, [isTeacher, replace, unregister]) // remember that all and any function that you call inside useEffect must be part of the dependency array
 
   const handleReset = () => {
-    console.log('Reset Form');
+    console.log('Reset Form')
     reset(defaultValues)
   }
 
@@ -96,15 +96,17 @@ const Users = () => {
   const variant = useWatch({ control: control, name: 'variant' })
 
   const createUserMutation = useCreateUser()
+  const editUserMutation = useEditUser()
 
-  const onSubmit:SubmitHandler<Schema> = (data) => {
-    console.log('Submitted', variant, data);
+  const onSubmit:SubmitHandler<any> = (data) => {
+    // console.log('Submitted', variant, data);
+    data = {...data, id: parseInt(data.id)}
     if(variant === 'create'){
       createUserMutation.mutate(data)
     }
-    // else(variant === 'edit'){
-
-    // }
+    else if(variant === 'edit'){
+      editUserMutation.mutate(data)
+    }
   }
 
   return (
@@ -115,11 +117,11 @@ const Users = () => {
       <Stack sx={{flexDirection: 'row', gap: 2 }}>
         <List subheader={<ListSubheader>Users</ListSubheader>}>
           {usersQuery.data?.map((user: Option) => {
-            console.log('user dude', user);
+            // console.log('user dude', user);
             return (
                 <ListItem disablePadding key={user.id}>
                   {/* NOTE: "selected" is a property of MUI's ListItemButton that highlights the selected item */}
-                  <ListItemButton onClick={() => handleUserClick(user.id)} selected={id === user.id}>
+                  <ListItemButton onClick={() => handleUserClick(user.id)} selected={id === parseInt(user.id)}>
                     <ListItemText primary={user.label} />
                   </ListItemButton>
                 </ListItem>
@@ -170,11 +172,11 @@ const Users = () => {
                 <RHFTextField name={`students.${index}.name`} label="Student's name" key={field.id} />
                 <Button color="error" onClick={() => remove(index)} type="button">Remove</Button>
               </>
-            )
+            ) 
           })}
           {/* NOTE: For submitting and resetting form */}
           <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Button type="submit">Create New User</Button>
+            <Button type="submit">{variant === 'create' ? 'Create New User' : 'Edit User'}</Button>
             <Button onClick={() => handleReset()} type="button">Reset Form</Button>
           </Stack>
         </Stack>

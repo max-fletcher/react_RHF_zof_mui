@@ -28,7 +28,7 @@ export const schema = z.intersection(
   }),
   z.discriminatedUnion('variant', [
     z.object({ variant: z.literal('create') }),
-    z.object({ variant: z.literal('edit'), id: z.string().min(1) })
+    z.object({ variant: z.literal('edit'), id: z.number().min(1) })
   ]),
 )
 .refine(
